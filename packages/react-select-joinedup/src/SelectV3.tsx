@@ -562,7 +562,7 @@ const shouldHideSelectedOptions = <
 
 let instanceId = 1;
 
-export default class Select<
+export default class SelectV3<
   Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
@@ -623,7 +623,7 @@ export default class Select<
   constructor(props: Props<Option, IsMulti, Group>) {
     super(props);
     this.instancePrefix =
-      'react-select-' + (this.props.instanceId || ++instanceId);
+      'react-select-joinedup-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
   }
 
@@ -2072,4 +2072,4 @@ export type PublicBaseSelectProps<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> = JSX.LibraryManagedAttributes<typeof Select, Props<Option, IsMulti, Group>>;
+> = JSX.LibraryManagedAttributes<typeof SelectV3, Props<Option, IsMulti, Group>>;

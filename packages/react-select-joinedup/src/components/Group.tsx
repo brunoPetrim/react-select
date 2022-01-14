@@ -12,7 +12,7 @@ import {
   Options,
   Theme,
 } from '../types';
-import { Props } from '../Select';
+import { Props } from '../SelectV3';
 
 export interface ForwardedHeadingProps<
   Option,

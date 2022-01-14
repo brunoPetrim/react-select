@@ -1,0 +1,8 @@
+{
+  "main": "dist/react-select-joinedup.cjs.js",
+  "module": "dist/react-select-joinedup.esm.js",
+  "types": "dist/react-select-joinedup.cjs.d.ts",
+  "preconstruct": {
+    "source": "../src/Async"
+  }
+}

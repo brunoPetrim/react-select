@@ -1,13 +1,13 @@
 {
-  "name": "@react-select/monorepo",
-  "private": true,
+  "name": "react-select-ju",
+  "private": false,
   "version": "1.0.0",
   "description": "A Select control built with and for ReactJS",
   "author": "Jed Watson",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JedWatson/react-select.git"
+    "url": "https://github.com/brunoPetrim/react-select.git"
   },
   "dependencies": {
     "@atlaskit/button": "^15.1.4",
@@ -124,7 +124,7 @@
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
     "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start:test --progress=false --no-info' 'yarn test:cypress'",
-    "type-check": "tsc --build packages/react-select/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
+    "type-check": "tsc --build packages/react-select-joinedup/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
     "precommit": "yarn run type-check",
     "postinstall": "preconstruct dev",
     "test:cypress": "yarn test:cypress:chrome && yarn test:cypress:firefox",
@@ -172,8 +172,8 @@
     ]
   },
   "browser": {
-    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
-    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+    "./dist/react-select-joinedup.cjs.js": "./dist/react-select-joinedup.browser.cjs.js",
+    "./dist/react-select-joinedup.esm.js": "./dist/react-select-joinedup.browser.esm.js"
   },
   "resolutions": {
     "csstype": "^3.0.2"

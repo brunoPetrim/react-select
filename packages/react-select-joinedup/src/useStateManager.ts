@@ -5,7 +5,7 @@ import {
   OnChangeValue,
   PropsValue,
 } from './types';
-import { PublicBaseSelectProps } from './Select';
+import { PublicBaseSelectProps } from './SelectV3';
 import { useCallback, useState } from 'react';
 
 type StateManagedPropKeys =

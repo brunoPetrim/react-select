@@ -13,7 +13,7 @@ import {
   OptionNumberValue,
   OptionBooleanValue,
 } from './constants';
-import Select, { FormatOptionLabelMeta } from '../Select';
+import SelectV3, { FormatOptionLabelMeta } from '../SelectV3';
 import { FilterOptionOption } from '../filters';
 
 import { matchers } from '@emotion/jest';
@@ -51,7 +51,7 @@ const BASIC_PROPS: BasicProps = {
 
 test('snapshot - defaults', () => {
   const { container } = render(
-    <Select
+    <SelectV3
       onChange={noop}
       onInputChange={noop}
       onMenuOpen={noop}
@@ -65,7 +65,7 @@ test('snapshot - defaults', () => {
 
 test('instanceId prop > to have instanceId as id prefix for the select components', () => {
   let { container } = render(
-    <Select {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />
+    <SelectV3 {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />
   );
   expect(container.querySelector('input')!.id).toContain('custom-id');
   container.querySelectorAll('div.react-select__option').forEach((opt) => {
@@ -75,7 +75,7 @@ test('instanceId prop > to have instanceId as id prefix for the select component
 
 test('hidden input field is not present if name is not passes', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       onChange={noop}
       onInputChange={noop}
       onMenuOpen={noop}
@@ -90,7 +90,7 @@ test('hidden input field is not present if name is not passes', () => {
 
 test('hidden input field is present if name passes', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       onChange={noop}
       onInputChange={noop}
       onMenuOpen={noop}
@@ -106,7 +106,7 @@ test('hidden input field is present if name passes', () => {
 
 test('single select > passing multiple values > should select the first value', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[4]] };
-  let { container } = render(<Select {...props} />);
+  let { container } = render(<SelectV3 {...props} />);
 
   expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '0'
@@ -115,7 +115,7 @@ test('single select > passing multiple values > should select the first value', 
 
 test('isRtl boolean prop sets direction: rtl on container', () => {
   let { container } = render(
-    <Select {...BASIC_PROPS} value={[OPTIONS[0]]} isRtl isClearable />
+    <SelectV3 {...BASIC_PROPS} value={[OPTIONS[0]]} isRtl isClearable />
   );
   expect(container.firstChild).toHaveStyleRule('direction', 'rtl');
 });
@@ -124,7 +124,7 @@ test('isOptionSelected() prop > single select > mark value as isSelected if isOp
   // Select all but option with label '1'
   let isOptionSelected = jest.fn((option) => option.label !== '1');
   let { container } = render(
-    <Select {...BASIC_PROPS} isOptionSelected={isOptionSelected} menuIsOpen />
+    <SelectV3 {...BASIC_PROPS} isOptionSelected={isOptionSelected} menuIsOpen />
   );
   let options = container.querySelectorAll('.react-select__option');
 
@@ -140,7 +140,7 @@ test('isOptionSelected() prop > multi select > to not show the selected options 
   // Select all but option with label '1'
   let isOptionSelected = jest.fn((option) => option.label !== '1');
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       isMulti
       isOptionSelected={isOptionSelected}
@@ -157,7 +157,7 @@ test('isOptionSelected() prop > multi select > to not show the selected options 
 cases(
   'formatOptionLabel',
   ({ props, valueComponentSelector, expectedOptions }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     let value = container.querySelector(valueComponentSelector);
     expect(value!.textContent).toBe(expectedOptions);
   },
@@ -195,7 +195,7 @@ cases(
 cases(
   'name prop',
   ({ expectedName, props }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     let input = container.querySelector<HTMLInputElement>('input[type=hidden]');
 
     expect(input!.name).toBe(expectedName);
@@ -220,13 +220,13 @@ cases(
 cases(
   'menuIsOpen prop',
   ({ props = BASIC_PROPS }) => {
-    let { container, rerender } = render(<Select {...props} />);
+    let { container, rerender } = render(<SelectV3 {...props} />);
     expect(container.querySelector('.react-select__menu')).toBeFalsy();
 
-    rerender(<Select {...props} menuIsOpen />);
+    rerender(<SelectV3 {...props} menuIsOpen />);
     expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
-    rerender(<Select {...props} />);
+    rerender(<SelectV3 {...props} />);
     expect(container.querySelector('.react-select__menu')).toBeFalsy();
   },
   {
@@ -245,8 +245,8 @@ cases(
 cases(
   'filterOption() prop - default filter behavior',
   ({ props, searchString, expectResultsLength }) => {
-    let { container, rerender } = render(<Select {...props} />);
-    rerender(<Select {...props} inputValue={searchString} />);
+    let { container, rerender } = render(<SelectV3 {...props} />);
+    rerender(<SelectV3 {...props} inputValue={searchString} />);
     expect(container.querySelectorAll('.react-select__option')).toHaveLength(
       expectResultsLength
     );
@@ -276,8 +276,8 @@ cases(
 cases(
   'filterOption() prop - should filter only if function returns truthy for value',
   ({ props, searchString, expectResultsLength }) => {
-    let { container, rerender } = render(<Select {...props} />);
-    rerender(<Select {...props} inputValue={searchString} />);
+    let { container, rerender } = render(<SelectV3 {...props} />);
+    rerender(<SelectV3 {...props} inputValue={searchString} />);
     expect(container.querySelectorAll('.react-select__option')).toHaveLength(
       expectResultsLength
     );
@@ -313,8 +313,8 @@ cases(
 cases(
   'filterOption prop is null',
   ({ props, searchString, expectResultsLength }) => {
-    let { container, rerender } = render(<Select {...props} />);
-    rerender(<Select {...props} inputValue={searchString} />);
+    let { container, rerender } = render(<SelectV3 {...props} />);
+    rerender(<SelectV3 {...props} inputValue={searchString} />);
     expect(container.querySelectorAll('.react-select__option')).toHaveLength(
       expectResultsLength
     );
@@ -347,8 +347,8 @@ cases(
 cases(
   'no option found on search based on filterOption prop',
   ({ props, searchString }) => {
-    let { getByText, rerender } = render(<Select {...props} />);
-    rerender(<Select {...props} inputValue={searchString} />);
+    let { getByText, rerender } = render(<SelectV3 {...props} />);
+    rerender(<SelectV3 {...props} inputValue={searchString} />);
     expect(getByText('No options').className).toContain(
       'menu-notice--no-options'
     );
@@ -378,8 +378,8 @@ cases(
 cases(
   'noOptionsMessage() function prop',
   ({ props, expectNoOptionsMessage, searchString }) => {
-    let { getByText, rerender } = render(<Select {...props} />);
-    rerender(<Select {...props} inputValue={searchString} />);
+    let { getByText, rerender } = render(<SelectV3 {...props} />);
+    rerender(<SelectV3 {...props} inputValue={searchString} />);
     expect(getByText(expectNoOptionsMessage).className).toContain(
       'menu-notice--no-options'
     );
@@ -421,7 +421,7 @@ cases(
   ({ props, expectedValue }) => {
     let value;
     render(
-      <Select<Option | OptionNumberValue, boolean>
+      <SelectV3<Option | OptionNumberValue, boolean>
         {...props}
         components={{
           Control: ({ getValue }) => {
@@ -478,14 +478,14 @@ cases(
     expectedUpdatedValue,
   }) => {
     let { container, rerender } = render(
-      <Select<Option | OptionNumberValue, boolean> {...props} />
+      <SelectV3<Option | OptionNumberValue, boolean> {...props} />
     );
     expect(
       container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
     ).toEqual(expectedInitialValue);
 
     rerender(
-      <Select<Option | OptionNumberValue, boolean>
+      <SelectV3<Option | OptionNumberValue, boolean>
         {...props}
         value={updateValueTo}
       />
@@ -551,7 +551,7 @@ cases(
     let onChangeSpy = jest.fn();
     props = { ...props, onChange: onChangeSpy };
     let { container } = render(
-      <Select<Option | OptionNumberValue | OptionBooleanValue, boolean>
+      <SelectV3<Option | OptionNumberValue | OptionBooleanValue, boolean>
         {...props}
       />
     );
@@ -755,7 +755,7 @@ cases<CallsOnOnDeselectChangeOpts>(
       isMulti: true,
     };
     let { container } = render(
-      <Select<Option | OptionNumberValue | OptionBooleanValue, boolean>
+      <SelectV3<Option | OptionNumberValue | OptionBooleanValue, boolean>
         {...props}
       />
     );
@@ -883,7 +883,7 @@ cases(
   }) => {
     let onChangeSpy = jest.fn();
     let { container } = render(
-      <Select
+      <SelectV3
         {...props}
         onChange={onChangeSpy}
         onInputChange={jest.fn()}
@@ -926,10 +926,10 @@ cases(
   'click to open select',
   ({ props = BASIC_PROPS, expectedToFocus }) => {
     let { container, rerender } = render(
-      <Select
+      <SelectV3
         {...props}
         onMenuOpen={() => {
-          rerender(<Select {...props} menuIsOpen onMenuOpen={noop} />);
+          rerender(<SelectV3 {...props} menuIsOpen onMenuOpen={noop} />);
         }}
       />
     );
@@ -959,7 +959,7 @@ cases(
 test('clicking when focused does not open select when openMenuOnClick=false', () => {
   let spy = jest.fn();
   let { container } = render(
-    <Select {...BASIC_PROPS} openMenuOnClick={false} onMenuOpen={spy} />
+    <SelectV3 {...BASIC_PROPS} openMenuOnClick={false} onMenuOpen={spy} />
   );
 
   // this will get updated on input click, though click on input is not bubbling up to control component
@@ -970,7 +970,7 @@ test('clicking when focused does not open select when openMenuOnClick=false', ()
 cases(
   'focus on options > keyboard interaction with Menu',
   ({ props, selectedOption, nextFocusOption, keyEvent = [] }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
 
     let indexOfSelectedOption = props.options.indexOf(selectedOption);
 
@@ -1283,7 +1283,7 @@ cases(
   ({ props }) => {
     let spy = jest.fn();
     let { container } = render(
-      <Select {...props} onInputChange={spy} onMenuClose={jest.fn()} />
+      <SelectV3 {...props} onInputChange={spy} onMenuClose={jest.fn()} />
     );
 
     fireEvent.keyDown(container.querySelector('.react-select')!, {
@@ -1323,7 +1323,7 @@ cases(
   ({ props = BASIC_PROPS }) => {
     let onMenuOpenSpy = jest.fn();
     props = { ...props, onMenuOpen: onMenuOpenSpy };
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     // Menu is closed
     expect(
       container.querySelector('.react-select__menu')
@@ -1352,7 +1352,7 @@ cases(
   ({ props = BASIC_PROPS }) => {
     let onMenuCloseSpy = jest.fn();
     props = { ...props, onMenuClose: onMenuCloseSpy };
-    let { container } = render(<Select {...props} menuIsOpen />);
+    let { container } = render(<SelectV3 {...props} menuIsOpen />);
     // Menu is open
     expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
     fireEvent.mouseDown(
@@ -1394,7 +1394,7 @@ cases<ClickingEnterOpts>(
           event.persist();
         }}
       >
-        <Select {...props} />
+        <SelectV3 {...props} />
       </div>
     );
     if (props.menuIsOpen) {
@@ -1435,7 +1435,7 @@ cases(
     let onMenuOpenSpy = jest.fn();
     let onMenuCloseSpy = jest.fn();
     let { container, rerender } = render(
-      <Select
+      <SelectV3
         {...props}
         onMenuClose={onMenuCloseSpy}
         onMenuOpen={onMenuOpenSpy}
@@ -1451,7 +1451,7 @@ cases(
 
     // does not close menu if menu is opened
     rerender(
-      <Select
+      <SelectV3
         {...props}
         menuIsOpen
         onMenuClose={onMenuCloseSpy}
@@ -1485,7 +1485,7 @@ interface RequiredOnInputOpts {
 cases<RequiredOnInputOpts>(
   'required on input is not there by default',
   ({ props = BASIC_PROPS }) => {
-    let { container } = render(<Select {...props} onInputChange={jest.fn()} />);
+    let { container } = render(<SelectV3 {...props} onInputChange={jest.fn()} />);
     let input = container.querySelector<HTMLInputElement>(
       'input.react-select__input'
     );
@@ -1501,7 +1501,7 @@ cases(
   'value of hidden input control',
   ({ props, expectedValue }) => {
     let { container } = render(
-      <Select<Option | OptionNumberValue | OptionBooleanValue, boolean>
+      <SelectV3<Option | OptionNumberValue | OptionBooleanValue, boolean>
         {...props}
       />
     );
@@ -1602,7 +1602,7 @@ cases(
 cases(
   'isOptionDisabled() prop',
   ({ props, expectedEnabledOption, expectedDisabledOption }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
 
     const enabledOptionsValues = [
       ...container.querySelectorAll('.react-select__option'),
@@ -1654,7 +1654,7 @@ cases(
 cases(
   'isDisabled prop',
   ({ props }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
 
     let control = container.querySelector('.react-select__control');
     expect(
@@ -1686,7 +1686,7 @@ cases(
 test('hitting Enter on option should not call onChange if the event comes from IME', () => {
   let spy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       className="react-select"
       classNamePrefix="react-select"
       menuIsOpen
@@ -1714,7 +1714,7 @@ test('hitting Enter on option should not call onChange if the event comes from I
 test('hitting tab on option should not call onChange if tabSelectsValue is false', () => {
   let spy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       className="react-select"
       classNamePrefix="react-select"
       menuIsOpen
@@ -1742,7 +1742,7 @@ test('multi select > to not show selected value in options', () => {
   let onInputChangeSpy = jest.fn();
   let onMenuCloseSpy = jest.fn();
   let { container, rerender } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       isMulti
       menuIsOpen
@@ -1757,7 +1757,7 @@ test('multi select > to not show selected value in options', () => {
   expect(availableOptions.indexOf('0') > -1).toBeTruthy();
 
   rerender(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       isMulti
       menuIsOpen
@@ -1783,7 +1783,7 @@ test('multi select > to not show selected value in options', () => {
 
 test('multi select > to not hide the selected options from the menu if hideSelectedOptions is false', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       className="react-select"
       classNamePrefix="react-select"
       hideSelectedOptions={false}
@@ -1812,7 +1812,7 @@ test('multi select > to not hide the selected options from the menu if hideSelec
 test('multi select > call onChange with all values but last selected value and remove event on hitting backspace', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       isMulti
       onChange={onChangeSpy}
@@ -1843,7 +1843,7 @@ test('multi select > call onChange with all values but last selected value and r
 test('should not call onChange on hitting backspace when backspaceRemovesValue is false', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       backspaceRemovesValue={false}
       onChange={onChangeSpy}
@@ -1859,7 +1859,7 @@ test('should not call onChange on hitting backspace when backspaceRemovesValue i
 test('should not call onChange on hitting backspace even when backspaceRemovesValue is true if isClearable is false', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       backspaceRemovesValue
       isClearable={false}
@@ -1876,7 +1876,7 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
 test('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true and isMulti is false', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       backspaceRemovesValue
       isClearable
@@ -1898,7 +1898,7 @@ test('should call onChange with `null` on hitting backspace when backspaceRemove
 test('should call onChange with an array on hitting backspace when backspaceRemovesValue is true and isMulti is true', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       backspaceRemovesValue
       isClearable
@@ -1920,7 +1920,7 @@ test('should call onChange with an array on hitting backspace when backspaceRemo
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       isMulti
       onChange={onChangeSpy}
@@ -1958,7 +1958,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 cases(
   'accessibility > aria-activedescendant',
   ({ props = { ...BASIC_PROPS } }) => {
-    let { container } = render(<Select {...props} menuIsOpen />);
+    let { container } = render(<SelectV3 {...props} menuIsOpen />);
 
     fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
       keyCode: 40,
@@ -1989,7 +1989,7 @@ cases(
 cases(
   'accessibility > passes through aria-labelledby prop',
   ({ props = { ...BASIC_PROPS, 'aria-labelledby': 'testing' } }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(
       container
         .querySelector('input.react-select__input')!
@@ -2011,7 +2011,7 @@ cases(
 cases(
   'accessibility > passes through aria-errormessage prop',
   ({ props = { ...BASIC_PROPS, 'aria-errormessage': 'error-message' } }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(
       container
         .querySelector('input.react-select__input')!
@@ -2033,7 +2033,7 @@ cases(
 cases(
   'accessibility > passes through aria-invalid prop',
   ({ props = { ...BASIC_PROPS, 'aria-invalid': true } }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(
       container
         .querySelector('input.react-select__input')!
@@ -2055,7 +2055,7 @@ cases(
 cases(
   'accessibility > passes through aria-label prop',
   ({ props = { ...BASIC_PROPS, 'aria-label': 'testing' } }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(
       container
         .querySelector('input.react-select__input')!
@@ -2076,11 +2076,11 @@ cases(
 
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
   let { container, rerender } = render(
-    <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
+    <SelectV3 {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
   );
 
   let setInputValue = (val: string) => {
-    rerender(<Select {...BASIC_PROPS} autoFocus menuIsOpen inputValue={val} />);
+    rerender(<SelectV3 {...BASIC_PROPS} autoFocus menuIsOpen inputValue={val} />);
   };
 
   const liveRegionId = '#aria-context';
@@ -2108,7 +2108,7 @@ test('accessibility > to show the number of options available in A11yText when t
 
 test('accessibility > interacting with disabled options shows correct A11yText', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       options={OPTIONS_DISABLED}
       inputValue={''}
@@ -2148,10 +2148,10 @@ test('accessibility > interacting with multi values options shows correct A11yTe
     hideSelectedOptions: false,
   };
 
-  let { container, rerender } = render(<Select {...renderProps} />);
+  let { container, rerender } = render(<SelectV3 {...renderProps} />);
 
   let openMenu = () => {
-    rerender(<Select {...renderProps} menuIsOpen />);
+    rerender(<SelectV3 {...renderProps} menuIsOpen />);
   };
 
   const liveRegionId = '#aria-context';
@@ -2197,7 +2197,7 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
   const liveRegionId = '#aria-context';
   let { container, rerender } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       inputValue={''}
       screenReaderStatus={screenReaderStatus}
@@ -2207,7 +2207,7 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
   let setInputValue = (val: string) => {
     rerender(
-      <Select
+      <SelectV3
         {...BASIC_PROPS}
         screenReaderStatus={screenReaderStatus}
         menuIsOpen
@@ -2251,7 +2251,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     };
 
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       ariaLiveMessages={ariaLiveMessages}
       options={OPTIONS}
@@ -2279,7 +2279,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
 
 test('accessibility > announces already selected values when focused', () => {
   let { container } = render(
-    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
+    <SelectV3 {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
   );
   const liveRegionSelectionId = '#aria-selection';
   const liveRegionContextId = '#aria-context';
@@ -2299,7 +2299,7 @@ test('accessibility > announces already selected values when focused', () => {
 
 test('accessibility > announces cleared values', () => {
   let { container } = render(
-    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
+    <SelectV3 {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
   );
   const liveRegionSelectionId = '#aria-selection';
   /**
@@ -2317,7 +2317,7 @@ test('accessibility > announces cleared values', () => {
 test('closeMenuOnSelect prop > when passed as false it should not call onMenuClose on selecting option', () => {
   let onMenuCloseSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       onMenuClose={onMenuCloseSpy}
       menuIsOpen
@@ -2332,7 +2332,7 @@ test('closeMenuOnSelect prop > when passed as false it should not call onMenuClo
 cases(
   'autoFocus',
   ({ props = { ...BASIC_PROPS, autoFocus: true } }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(container.querySelector('input.react-select__input')).toBe(
       document.activeElement
     );
@@ -2353,7 +2353,7 @@ cases(
   'onFocus prop with autoFocus',
   ({ props = { ...BASIC_PROPS, autoFocus: true } }) => {
     let onFocusSpy = jest.fn();
-    let { container } = render(<Select {...props} onFocus={onFocusSpy} />);
+    let { container } = render(<SelectV3 {...props} onFocus={onFocusSpy} />);
     expect(container.querySelector('input.react-select__input')).toBe(
       document.activeElement
     );
@@ -2382,7 +2382,7 @@ cases(
   'onFocus prop is called on on focus of input',
   ({ props = { ...BASIC_PROPS } }) => {
     let onFocusSpy = jest.fn();
-    let { container } = render(<Select {...props} onFocus={onFocusSpy} />);
+    let { container } = render(<SelectV3 {...props} onFocus={onFocusSpy} />);
     fireEvent.focus(container.querySelector('input.react-select__input')!);
     expect(onFocusSpy).toHaveBeenCalledTimes(1);
   },
@@ -2402,7 +2402,7 @@ cases(
   ({ props = { ...BASIC_PROPS } }) => {
     let onBlurSpy = jest.fn();
     let { container } = render(
-      <Select
+      <SelectV3
         {...props}
         onBlur={onBlurSpy}
         onInputChange={jest.fn()}
@@ -2426,7 +2426,7 @@ cases(
 test('onInputChange() function prop to be called on blur', () => {
   let onInputChangeSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       onBlur={jest.fn()}
       onInputChange={onInputChangeSpy}
@@ -2441,7 +2441,7 @@ test('onInputChange() function prop to be called on blur', () => {
 test('onMenuClose() function prop to be called on blur', () => {
   let onMenuCloseSpy = jest.fn();
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       onBlur={jest.fn()}
       onInputChange={jest.fn()}
@@ -2455,7 +2455,7 @@ test('onMenuClose() function prop to be called on blur', () => {
 cases(
   'placeholder',
   ({ props, expectPlaceholder = 'Select...' }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(container.querySelector('.react-select__control')!.textContent).toBe(
       expectPlaceholder
     );
@@ -2498,11 +2498,11 @@ cases(
 cases(
   'display placeholder once value is removed',
   ({ props }) => {
-    let { container, rerender } = render(<Select {...props} />);
+    let { container, rerender } = render(<SelectV3 {...props} />);
     expect(
       container.querySelector('.react-select__placeholder')
     ).not.toBeInTheDocument();
-    rerender(<Select {...props} value={null} />);
+    rerender(<SelectV3 {...props} value={null} />);
     expect(
       container.querySelector('.react-select__placeholder')
     ).toBeInTheDocument();
@@ -2527,7 +2527,7 @@ cases(
 
 test('sets inputMode="none" when isSearchable is false', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       classNamePrefix="react-select"
       options={OPTIONS}
       isSearchable={false}
@@ -2553,7 +2553,7 @@ cases(
   ({ props = BASIC_PROPS, optionsSelected }) => {
     let onChangeSpy = jest.fn();
     props = { ...props, onChange: onChangeSpy };
-    let { container } = render(<Select {...props} menuIsOpen />);
+    let { container } = render(<SelectV3 {...props} menuIsOpen />);
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
     ].find((n) => n.textContent === optionsSelected);
@@ -2589,7 +2589,7 @@ cases(
   ({ props = BASIC_PROPS, optionsSelected }) => {
     let onChangeSpy = jest.fn();
     props = { ...props, onChange: onChangeSpy };
-    let { container } = render(<Select {...props} menuIsOpen />);
+    let { container } = render(<SelectV3 {...props} menuIsOpen />);
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
     ].find((n) => n.textContent === optionsSelected);
@@ -2628,9 +2628,9 @@ test('does not select anything when a disabled option is the only item in the li
   ];
   const props = { ...BASIC_PROPS, onChange: onChangeSpy, options };
   let { container, rerender } = render(
-    <Select {...props} menuIsOpen inputValue="" />
+    <SelectV3 {...props} menuIsOpen inputValue="" />
   );
-  rerender(<Select {...props} menuIsOpen inputValue="opt" />);
+  rerender(<SelectV3 {...props} menuIsOpen inputValue="opt" />);
 
   fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
@@ -2647,7 +2647,7 @@ test('does not select anything when a disabled option is the only item in the li
 test('render custom Input Component', () => {
   const InputComponent = () => <div className="my-input-component" />;
   let { container } = render(
-    <Select {...BASIC_PROPS} components={{ Input: InputComponent }} />
+    <SelectV3 {...BASIC_PROPS} components={{ Input: InputComponent }} />
   );
 
   expect(
@@ -2659,7 +2659,7 @@ test('render custom Input Component', () => {
 test('render custom Menu Component', () => {
   const MenuComponent = () => <div className="my-menu-component" />;
   let { container } = render(
-    <Select {...BASIC_PROPS} menuIsOpen components={{ Menu: MenuComponent }} />
+    <SelectV3 {...BASIC_PROPS} menuIsOpen components={{ Menu: MenuComponent }} />
   );
 
   expect(
@@ -2671,7 +2671,7 @@ test('render custom Menu Component', () => {
 test('render custom Option Component', () => {
   const OptionComponent = () => <div className="my-option-component" />;
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       components={{ Option: OptionComponent }}
       menuIsOpen
@@ -2687,7 +2687,7 @@ test('render custom Option Component', () => {
 cases(
   'isClearable is false',
   ({ props = BASIC_PROPS }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     expect(
       container.querySelector('react-select__clear-indicator')
     ).not.toBeInTheDocument();
@@ -2713,7 +2713,7 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let { container } = render(
-    <Select {...props} isMulti value={[OPTIONS[0]]} />
+    <SelectV3 {...props} isMulti value={[OPTIONS[0]]} />
   );
 
   expect(container.querySelectorAll('.react-select__multi-value').length).toBe(
@@ -2739,7 +2739,7 @@ test('clearing select using clear button to not call onMenuOpen or onMenuClose',
     onMenuOpen: onMenuOpenSpy,
   };
   let { container } = render(
-    <Select {...props} isMulti value={[OPTIONS[0]]} />
+    <SelectV3 {...props} isMulti value={[OPTIONS[0]]} />
   );
   expect(container.querySelectorAll('.react-select__multi-value').length).toBe(
     1
@@ -2756,7 +2756,7 @@ test('multi select >  calls onChange when option is selected and isSearchable is
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let { container } = render(
-    <Select {...props} isMulti menuIsOpen delimiter="," isSearchable={false} />
+    <SelectV3 {...props} isMulti menuIsOpen delimiter="," isSearchable={false} />
   );
   userEvent.click(container.querySelector('.react-select__option')!);
   const selectedOption = { label: '0', value: 'zero' };
@@ -2771,7 +2771,7 @@ test('getOptionLabel() prop > to format the option label', () => {
   const getOptionLabel = (option: Option) =>
     `This a custom option ${option.label} label`;
   const { container } = render(
-    <Select {...BASIC_PROPS} menuIsOpen getOptionLabel={getOptionLabel} />
+    <SelectV3 {...BASIC_PROPS} menuIsOpen getOptionLabel={getOptionLabel} />
   );
   expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'This a custom option 0 label'
@@ -2799,7 +2799,7 @@ test('formatGroupLabel function prop > to format Group label', () => {
     },
   ];
   const { container } = render(
-    <Select<GroupOption, false, Group>
+    <SelectV3<GroupOption, false, Group>
       classNamePrefix="react-select"
       options={options}
       menuIsOpen
@@ -2835,7 +2835,7 @@ test('to only render groups with at least one match when filtering', () => {
     },
   ];
   const { container } = render(
-    <Select
+    <SelectV3
       classNamePrefix="react-select"
       options={options}
       menuIsOpen
@@ -2874,7 +2874,7 @@ test('not render any groups when there is not a single match when filtering', ()
     },
   ];
   const { container } = render(
-    <Select
+    <SelectV3
       classNamePrefix="react-select"
       options={options}
       menuIsOpen
@@ -2892,7 +2892,7 @@ test('not render any groups when there is not a single match when filtering', ()
 
 test('multi select > have default value delimiter seperated', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       delimiter={';'}
       isMulti
@@ -2906,7 +2906,7 @@ test('multi select > have default value delimiter seperated', () => {
 
 test('multi select > with multi character delimiter', () => {
   let { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       delimiter={'===&==='}
       isMulti
@@ -2921,7 +2921,7 @@ test('multi select > with multi character delimiter', () => {
 test('hitting spacebar should select option if isSearchable is false', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
-  let { container } = render(<Select {...props} isSearchable menuIsOpen />);
+  let { container } = render(<SelectV3 {...props} isSearchable menuIsOpen />);
   // focus the first option
   fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 40,
@@ -2941,7 +2941,7 @@ test('hitting escape does not call onChange if menu is Open', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let { container } = render(
-    <Select {...props} menuIsOpen escapeClearsValue isClearable />
+    <SelectV3 {...props} menuIsOpen escapeClearsValue isClearable />
   );
 
   // focus the first option
@@ -2954,7 +2954,7 @@ test('hitting escape does not call onChange if menu is Open', () => {
 
 test('multi select > removes the selected option from the menu options when isSearchable is false', () => {
   let { container, rerender } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       delimiter=","
       isMulti
@@ -2964,7 +2964,7 @@ test('multi select > removes the selected option from the menu options when isSe
   );
   expect(container.querySelectorAll('.react-select__option').length).toBe(17);
   rerender(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       delimiter=","
       isMulti
@@ -2981,7 +2981,7 @@ test('multi select > removes the selected option from the menu options when isSe
 });
 
 test('hitting ArrowUp key on closed select should focus last element', () => {
-  let { container } = render(<Select {...BASIC_PROPS} menuIsOpen />);
+  let { container } = render(<SelectV3 {...BASIC_PROPS} menuIsOpen />);
 
   fireEvent.keyDown(container.querySelector('.react-select__control')!, {
     keyCode: 38,
@@ -3003,7 +3003,7 @@ test('close menu on hitting escape and clear input value if menu is open even if
     value: OPTIONS[0],
   };
   let { container } = render(
-    <Select {...props} menuIsOpen escapeClearsValue isClearable />
+    <SelectV3 {...props} menuIsOpen escapeClearsValue isClearable />
   );
   fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
@@ -3030,7 +3030,7 @@ test('to not clear value when hitting escape if escapeClearsValue is false (defa
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
   let { container } = render(
-    <Select {...props} escapeClearsValue isClearable={false} />
+    <SelectV3 {...props} escapeClearsValue isClearable={false} />
   );
 
   fireEvent.keyDown(container.querySelector('.react-select')!, {
@@ -3044,7 +3044,7 @@ test('to not clear value when hitting escape if escapeClearsValue is true and is
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
   let { container } = render(
-    <Select {...props} escapeClearsValue isClearable={false} />
+    <SelectV3 {...props} escapeClearsValue isClearable={false} />
   );
 
   fireEvent.keyDown(container.querySelector('.react-select')!, {
@@ -3057,7 +3057,7 @@ test('to not clear value when hitting escape if escapeClearsValue is true and is
 test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is true', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
-  let { container } = render(<Select {...props} isClearable />);
+  let { container } = render(<SelectV3 {...props} isClearable />);
 
   fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
@@ -3070,7 +3070,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   let onInputChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onInputChangeSpy, value: OPTIONS[0] };
   let { container } = render(
-    <Select {...props} isClearable escapeClearsValue />
+    <SelectV3 {...props} isClearable escapeClearsValue />
   );
 
   fireEvent.keyDown(container.querySelector('.react-select')!, {
@@ -3087,7 +3087,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
 test('hitting spacebar should not select option if isSearchable is true (default)', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
-  let { container } = render(<Select {...props} menuIsOpen />);
+  let { container } = render(<SelectV3 {...props} menuIsOpen />);
   // Open Menu
   fireEvent.keyDown(container, { keyCode: 32, key: ' ' });
   expect(onChangeSpy).not.toHaveBeenCalled();
@@ -3096,7 +3096,7 @@ test('hitting spacebar should not select option if isSearchable is true (default
 test('renders with custom theme', () => {
   const primary = 'rgb(255, 164, 83)';
   const { container } = render(
-    <Select
+    <SelectV3
       {...BASIC_PROPS}
       value={OPTIONS[0]}
       menuIsOpen

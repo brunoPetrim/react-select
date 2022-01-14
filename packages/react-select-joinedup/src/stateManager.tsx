@@ -1,7 +1,7 @@
 import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 
 import { GroupBase } from './types';
-import Select from './Select';
+import SelectV3 from './SelectV3';
 import useStateManager from './useStateManager';
 import type { StateManagerProps } from './useStateManager';
 export type { StateManagerProps };
@@ -12,20 +12,20 @@ type StateManagedSelect = <
   Group extends GroupBase<Option> = GroupBase<Option>
 >(
   props: StateManagerProps<Option, IsMulti, Group> &
-    RefAttributes<Select<Option, IsMulti, Group>>
+    RefAttributes<SelectV3<Option, IsMulti, Group>>
 ) => ReactElement;
 
 const StateManagedSelect = React.forwardRef(
   <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: StateManagerProps<Option, IsMulti, Group>,
     ref:
-      | ((instance: Select<Option, IsMulti, Group> | null) => void)
-      | MutableRefObject<Select<Option, IsMulti, Group> | null>
+      | ((instance: SelectV3<Option, IsMulti, Group> | null) => void)
+      | MutableRefObject<SelectV3<Option, IsMulti, Group> | null>
       | null
   ) => {
     const baseSelectProps = useStateManager(props);
 
-    return <Select ref={ref} {...baseSelectProps} />;
+    return <SelectV3 ref={ref} {...baseSelectProps} />;
   }
 ) as StateManagedSelect;
 

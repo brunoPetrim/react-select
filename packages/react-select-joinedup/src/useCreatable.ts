@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useMemo } from 'react';
-import { PublicBaseSelectProps } from './Select';
+import { PublicBaseSelectProps } from './SelectV3';
 import {
   ActionMeta,
   GetOptionLabel,

@@ -1,4 +1,4 @@
-import Select from './Select';
+import SelectV3 from './SelectV3';
 import { GroupBase } from './types';
 import useStateManager from './useStateManager';
 
@@ -12,7 +12,7 @@ export type SelectInstance<
   Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
-> = Select<Option, IsMulti, Group>;
+> = SelectV3<Option, IsMulti, Group>;
 export type { StateManagerProps as Props } from './useStateManager';
 export { useStateManager };
 

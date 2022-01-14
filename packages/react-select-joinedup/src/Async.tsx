@@ -1,5 +1,5 @@
 import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
-import Select from './Select';
+import SelectV3 from './SelectV3';
 import { GroupBase } from './types';
 import useStateManager from './useStateManager';
 import useAsync from './useAsync';
@@ -12,21 +12,21 @@ type AsyncSelect = <
   Group extends GroupBase<Option> = GroupBase<Option>
 >(
   props: AsyncProps<Option, IsMulti, Group> &
-    RefAttributes<Select<Option, IsMulti, Group>>
+    RefAttributes<SelectV3<Option, IsMulti, Group>>
 ) => ReactElement;
 
 const AsyncSelect = React.forwardRef(
   <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: AsyncProps<Option, IsMulti, Group>,
     ref:
-      | ((instance: Select<Option, IsMulti, Group> | null) => void)
-      | MutableRefObject<Select<Option, IsMulti, Group> | null>
+      | ((instance: SelectV3<Option, IsMulti, Group> | null) => void)
+      | MutableRefObject<SelectV3<Option, IsMulti, Group> | null>
       | null
   ) => {
     const stateManagedProps = useAsync(props);
     const selectProps = useStateManager(stateManagedProps);
 
-    return <Select ref={ref} {...selectProps} />;
+    return <SelectV3 ref={ref} {...selectProps} />;
   }
 ) as AsyncSelect;
 

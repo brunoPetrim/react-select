@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
 import { Option, OPTIONS } from './constants';
-import Select from '../';
+import SelectV3 from '../';
 
 function openMenu(container: HTMLElement) {
   expect(
@@ -55,19 +55,19 @@ const BASIC_PROPS: BasicProps = {
 };
 
 test('defaults > snapshot', () => {
-  const { container } = render(<Select />);
+  const { container } = render(<SelectV3 />);
   expect(container).toMatchSnapshot();
 });
 
 test('passes down the className prop', () => {
-  const { container } = render(<Select {...BASIC_PROPS} />);
+  const { container } = render(<SelectV3 {...BASIC_PROPS} />);
   expect(container.querySelector('.react-select')).toBeTruthy();
 });
 
 cases(
   'click on dropdown indicator',
   ({ props }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     // Menu not open by defualt
     expect(
       container.querySelector('.react-select__menu')
@@ -87,7 +87,7 @@ cases(
 );
 
 test('If menuIsOpen prop is passed Menu should not close on clicking Dropdown Indicator', () => {
-  const { container } = render(<Select menuIsOpen {...BASIC_PROPS} />);
+  const { container } = render(<SelectV3 menuIsOpen {...BASIC_PROPS} />);
   expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
   toggleMenuOpen(container);
@@ -95,7 +95,7 @@ test('If menuIsOpen prop is passed Menu should not close on clicking Dropdown In
 });
 
 test('defaultMenuIsOpen prop > should open by menu default and clicking on Dropdown Indicator should toggle menu', () => {
-  const { container } = render(<Select defaultMenuIsOpen {...BASIC_PROPS} />);
+  const { container } = render(<SelectV3 defaultMenuIsOpen {...BASIC_PROPS} />);
   expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
   toggleMenuOpen(container);
@@ -104,13 +104,13 @@ test('defaultMenuIsOpen prop > should open by menu default and clicking on Dropd
 
 test('Menu is controllable by menuIsOpen prop', () => {
   const menuClass = `.${BASIC_PROPS.classNamePrefix}__menu`;
-  const { container, rerender } = render(<Select {...BASIC_PROPS} />);
+  const { container, rerender } = render(<SelectV3 {...BASIC_PROPS} />);
   expect(container.querySelector(menuClass)).toBeFalsy();
 
-  rerender(<Select menuIsOpen {...BASIC_PROPS} />);
+  rerender(<SelectV3 menuIsOpen {...BASIC_PROPS} />);
   expect(container.querySelector(menuClass)).toBeTruthy();
 
-  rerender(<Select menuIsOpen={false} {...BASIC_PROPS} />);
+  rerender(<SelectV3 menuIsOpen={false} {...BASIC_PROPS} />);
   expect(container.querySelector(menuClass)).toBeFalsy();
 });
 
@@ -128,7 +128,7 @@ cases<MenuToOpenByDefaultOpts>(
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props, menuIsOpen: true };
     const menuClass = `.${BASIC_PROPS.classNamePrefix}__menu`;
-    const { container } = render(<Select {...props} />);
+    const { container } = render(<SelectV3 {...props} />);
     expect(container.querySelector(menuClass)).toBeTruthy();
 
     userEvent.click(
@@ -152,7 +152,7 @@ cases<MenuToOpenByDefaultOpts>(
 );
 
 test('multi select > selecting multiple values', () => {
-  let { container } = render(<Select {...BASIC_PROPS} isMulti />);
+  let { container } = render(<SelectV3 {...BASIC_PROPS} isMulti />);
   openMenu(container);
   fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
@@ -174,7 +174,7 @@ test('multi select > selecting multiple values', () => {
 
 test('defaultInputValue prop > should update the inputValue on change of input if defaultInputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, defaultInputValue: '0' };
-  let { container } = render(<Select {...props} />);
+  let { container } = render(<SelectV3 {...props} />);
   let input = container.querySelector<HTMLInputElement>(
     '.react-select__control input'
   );
@@ -186,7 +186,7 @@ test('defaultInputValue prop > should update the inputValue on change of input i
 
 test('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, inputValue: '0' };
-  let { container } = render(<Select {...props} />);
+  let { container } = render(<SelectV3 {...props} />);
   let input = container.querySelector<HTMLInputElement>(
     '.react-select__control input'
   );
@@ -197,7 +197,7 @@ test('inputValue prop > should not update the inputValue when on change of input
 
 test('defaultValue prop > should update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, defaultValue: [OPTIONS[0]] };
-  let { container } = render(<Select {...props} menuIsOpen />);
+  let { container } = render(<SelectV3 {...props} menuIsOpen />);
   expect(
     container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
   ).toBe('zero');
@@ -209,7 +209,7 @@ test('defaultValue prop > should update the value on selecting option', () => {
 
 test('value prop > should not update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0]] };
-  let { container } = render(<Select {...props} menuIsOpen />);
+  let { container } = render(<SelectV3 {...props} menuIsOpen />);
   expect(
     container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
   ).toBe('zero');
@@ -227,7 +227,7 @@ cases(
     selectOption,
     expectSelectedOption,
   }) => {
-    let { container, getByText } = render(<Select {...props} />);
+    let { container, getByText } = render(<SelectV3 {...props} />);
     let toSelectOption = getByText(selectOption.label);
     fireEvent[eventName](toSelectOption, eventArgs);
     expect(
@@ -276,7 +276,7 @@ cases<KeyboardInteractionOpts>(
     eventsToSimulate,
     expectedSelectedOption,
   }) => {
-    let { container } = render(<Select {...props} />);
+    let { container } = render(<SelectV3 {...props} />);
     openMenu(container);
     eventsToSimulate.map(([eventName, eventArgs]) => {
       fireEvent[eventName](

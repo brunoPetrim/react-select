@@ -39,7 +39,7 @@ Then use it in your app:
 
 ```js
 import React from 'react';
-import Select from 'react-select';
+import SelectV3 from 'react-select-joinedup';
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -59,7 +59,7 @@ class App extends React.Component {
     const { selectedOption } = this.state;
 
     return (
-      <Select
+      <SelectV3
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
